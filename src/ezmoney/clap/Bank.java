@@ -29,6 +29,10 @@ public class Bank {
         Scanner consoleInput = new Scanner(System.in);
 
 
+        //TODO: Update this test code?
+        Customer customer = new Customer();
+        Admin admin = new Admin();
+
 
 
 
@@ -148,55 +152,55 @@ public class Bank {
                     case 1:
 
                         //List all accounts in the bank
-                        Admin.listAllAccounts(accountDatabase);
+                        admin.listAllAccounts(accountDatabase);
 
                         break;
                     case 2:
 
                         //This lists certain accounts based on user inputs
-                        Admin.listAccounts(accountDatabase);
+                        admin.listAccounts(accountDatabase);
 
                         break;
                     case 3:
 
                         //Delete the specified account
-                        Admin.deleteAccount(accountDatabase);
+                        admin.deleteAccount(accountDatabase);
 
                         break;
                     case 4:
 
                         //Create a new account
-                        Admin.createAccount(accountDatabase);
+                        admin.createAccount(accountDatabase);
 
                         break;
                     case 5:
 
                         //Deposit money into the specified account
-                        Admin.deposit(accountDatabase);
+                        admin.deposit(accountDatabase);
 
                         break;
                     case 6:
 
                         //Withdraw money from the specified account
-                        Admin.withdraw(accountDatabase);
+                        admin.withdraw(accountDatabase);
 
                         break;
                     case 7:
 
                         //Get info from specified account
-                        Admin.requestAccountSummary(accountDatabase);
+                        admin.requestAccountSummary(accountDatabase);
 
                         break;
                     case 8:
 
                         //Get transaction history from specified account
-                        Admin.requestTransactionDetails(accountDatabase);
+                        admin.requestTransactionDetails(accountDatabase);
 
                         break;
                     case 9:
 
                         //Send money from a specified account to another specified account
-                        Admin.transferMoney(accountDatabase);
+                        admin.transferMoney(accountDatabase);
 
                         break;
 
@@ -256,6 +260,8 @@ public class Bank {
 
                             //Notify account has been found
                             login = true;
+
+                            break;
                         }
 
                     }
