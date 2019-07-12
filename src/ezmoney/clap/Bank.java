@@ -46,20 +46,18 @@ public class Bank {
             //TODO: use a try catch on input
 
             //Get account type
-            System.out.println("Enter user type (Bank Teller or Customer): ");
-            System.out.println("Enter 'exit' to close the program.");
+            System.out.println("Enter user type (Admin or Customer): ");
+            System.out.println("(Enter 'exit' to close the program)");
             userType = consoleInput.nextLine();
 
 
-            //End the program if necessary
-            if(userType.equalsIgnoreCase("exit")){
 
-                exit(0);
-            }
+            //End the program if necessary
+            endProgram(userType);
 
 
             //Check type
-            if(!userType.equalsIgnoreCase("bank teller") && !userType.equalsIgnoreCase("customer")){
+            if(!userType.equalsIgnoreCase("admin") && !userType.equalsIgnoreCase("customer")){
 
                 //Neither account type selected
                 System.out.println("Incorrect value entered!");
@@ -81,7 +79,7 @@ public class Bank {
         /*
         Run code for bank teller
         */
-        if(userType.equalsIgnoreCase("bank teller")){
+        if(userType.equalsIgnoreCase("admin")){
 
 
 
@@ -91,16 +89,14 @@ public class Bank {
 
                 //TODO: use a try catch on input
                 //Get the pin
-                System.out.println("Enter the Admin pin: ");
+                System.out.println("\nEnter the Admin pin: ");
                 System.out.println("Enter 'exit' to close the program.");
 
                 pin = consoleInput.nextLine();
 
 
                 //Exit the program if necessary
-                if(pin.equalsIgnoreCase("exit")){
-                    exit(0);
-                }
+                endProgram(pin);
 
 
                 //TODO: See if try catch is necessary
@@ -108,7 +104,7 @@ public class Bank {
                 if(Integer.parseInt(pin) == defaultAdminPassword){
 
                     //Break this loop
-                    System.out.println("Logging in... Welcome!");
+                    System.out.println("\nLogging in... Welcome!\n");
                     login = true;
                     break;
 
@@ -146,9 +142,7 @@ public class Bank {
 
 
                 //Exit the program if necessary
-                if(pin.equalsIgnoreCase("exit")){
-                    exit(0);
-                }
+                endProgram(selection);
 
 
 
@@ -218,6 +212,9 @@ public class Bank {
                     default:
                         System.out.println("The entered selection was not in the list!");
                 }
+
+
+                
             }
 
 
@@ -235,7 +232,7 @@ public class Bank {
         /*
         Loop through customer login attempts
          */
-        if(userType.equalsIgnoreCase("bank teller")) {
+        if(userType.equalsIgnoreCase("customer")) {
 
 
             //Loop through customer login attempts
@@ -244,15 +241,25 @@ public class Bank {
 
                 //TODO: use a try catch on input
                 //Get credentials
-                System.out.println("Enter Name");
+                System.out.println("\n-----LOGIN-----");
+
+                System.out.println("Enter UserID:");
 
                 //Hold input
                 userId = consoleInput.nextLine();
 
-                System.out.println("Enter Pin");
+
+                //End program if necessary
+                endProgram(userId);
+
+
+                System.out.println("Enter Pin:");
 
                 //Hold input
                 pin = consoleInput.nextLine();
+
+                //End program if necessary
+                endProgram(pin);
 
 
 
@@ -270,7 +277,7 @@ public class Bank {
 
                             //Notify account has been found
                             login = true;
-
+                            System.out.println("\nLogging in... Welcome!\n");
                             break;
                         }
 
@@ -325,9 +332,7 @@ public class Bank {
 
 
                 //Exit the program if necessary
-                if(pin.equalsIgnoreCase("exit")){
-                    exit(0);
-                }
+                endProgram(selection);
 
 
 
@@ -399,8 +404,16 @@ public class Bank {
 
 
 
+    }
 
 
+    public static void endProgram(String value){
+
+        if(value.equalsIgnoreCase("exit")){
+            System.out.println("\nThank you for your business!");
+            System.out.println("Please come again!");
+            exit(0);
+        }
 
     }
 
