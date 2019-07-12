@@ -43,6 +43,8 @@ public class Bank {
          */
         while(true){
 
+            //TODO: use a try catch on input
+
             //Get account type
             System.out.println("Enter user type (Bank Teller or Customer): ");
             System.out.println("Enter 'exit' to close the program.");
@@ -86,6 +88,8 @@ public class Bank {
             //Login admin
             while(!login){
 
+
+                //TODO: use a try catch on input
                 //Get the pin
                 System.out.println("Enter the Admin pin: ");
                 System.out.println("Enter 'exit' to close the program.");
@@ -120,6 +124,8 @@ public class Bank {
             //Show admin selection
             while(login){
 
+
+                //TODO: use a try catch on input
                 //Show selection
                 System.out.println("Enter a selection:");
                 System.out.println("1. List all accounts");
@@ -176,30 +182,35 @@ public class Bank {
                     case 5:
 
                         //Deposit money into the specified account
+                        //TODO: Do NOT pass userID from here. Override the customer methods in customer if needed.
                         admin.deposit(accountDatabase);
 
                         break;
                     case 6:
 
                         //Withdraw money from the specified account
+                        //TODO: Do NOT pass userID from here. Override the customer methods in customer if needed.
                         admin.withdraw(accountDatabase);
 
                         break;
                     case 7:
 
                         //Get info from specified account
+                        //TODO: Do NOT pass userID from here. Override the customer methods in customer if needed.
                         admin.requestAccountSummary(accountDatabase);
 
                         break;
                     case 8:
 
                         //Get transaction history from specified account
+                        //TODO: Do NOT pass userID from here. Override the customer methods in customer if needed.
                         admin.requestTransactionDetails(accountDatabase);
 
                         break;
                     case 9:
 
                         //Send money from a specified account to another specified account
+                        //TODO: Do NOT pass userID from here. Override the customer methods in customer if needed.
                         admin.transferMoney(accountDatabase);
 
                         break;
@@ -231,7 +242,7 @@ public class Bank {
             while(!login){
 
 
-                //TODO: Validate input
+                //TODO: use a try catch on input
                 //Get credentials
                 System.out.println("Enter Name");
 
@@ -250,13 +261,12 @@ public class Bank {
                 for(Account a : accountDatabase){
 
                     //See if name matches
-                    if(a.userId.equals(userId)){
+                    if(a.getUserID() == Integer.parseInt(userId)){
 
                         //Found an account with the same name!
 
-
                         //See if pin matches
-                        if(a.pin = pin){
+                        if(a.getPin() == Integer.parseInt(pin)){
 
                             //Notify account has been found
                             login = true;
@@ -293,6 +303,9 @@ public class Bank {
             //Loop through selection options
             while(login){
 
+
+                //TODO: use a try catch on input
+
                 //Show selection
                 System.out.println("Enter a selection:");
                 System.out.println("1. List my Accounts");
@@ -321,16 +334,19 @@ public class Bank {
                 //Run customer code
                 switch(Integer.parseInt(selection)){
 
+
+                    //TODO: Make sure if Integer.parseInt needs try/catch block
+
                     case 1:
 
                         //Show accounts tied to userId
-                        customer.listMyAccounts(accountDatabase);
+                        customer.listMyAccounts(accountDatabase, Integer.parseInt(userId));
 
                         break;
                     case 2:
 
                         //Delete account specified
-                        customer.deleteAccount(accountDatabase);
+                        customer.deleteAccount(accountDatabase, Integer.parseInt(userId));
 
                         break;
                     case 3:
@@ -342,31 +358,31 @@ public class Bank {
                     case 4:
 
                         //Deposit money to the account specified
-                        customer.deposit(accountDatabase);
+                        customer.deposit(accountDatabase, Integer.parseInt(userId));
 
                         break;
                     case 5:
 
                         //Withdraw money from the account specified
-                        customer.withdraw(accountDatabase);
+                        customer.withdraw(accountDatabase, Integer.parseInt(userId));
 
                         break;
                     case 6:
 
                         //Get specified accounts activity
-                        customer.requestAccountSummary(accountDatabase);
+                        customer.requestAccountSummary(accountDatabase, Integer.parseInt(userId));
 
                         break;
                     case 7:
 
                         //Get specified accounts transaction history
-                        customer.requestTransactionDetails(accountDatabase);
+                        customer.requestTransactionDetails(accountDatabase, Integer.parseInt(userId));
 
                         break;
                     case 8:
 
                         //Send money from the specified account to another specified account
-                        customer.transferMoney(accountDatabase);
+                        customer.transferMoney(accountDatabase, Integer.parseInt(userId));
 
                         break;
 

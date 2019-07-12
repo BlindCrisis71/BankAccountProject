@@ -8,7 +8,8 @@ public class Account {
     //TODO: Use static counter to keep track of ids
     //Unique id's are created by incrementing
     //Old id's are never recycled
-    public static int counter;
+    public static int accountNumberCounter;
+    public static int userIdCounter;
 
 
 
@@ -76,16 +77,27 @@ public class Account {
 
             return type;
         }
+
+
     }
 
     /**
      * Constructor
      * @param accountType This account's type
      */
-    public Account(AccountType accountType) {
+    public Account(String name, int pin, AccountType accountType, int userID) {
 
+        this.name = name;
+        this.pin = pin;
         this.accountType = accountType;
+        this.userID = userID;
 
+        //TODO: Generate the new AccountNumber
+
+    }
+
+    public double getBalance(){
+        return money;
     }
 
     /**
@@ -161,6 +173,32 @@ public class Account {
 
             System.out.println(activity.toString());
         }
+    }
+
+    /**
+     * Converts an input string from the console into the correct enum type
+     * @param rawType
+     * @return
+     */
+    public static AccountType convertString(String rawType){
+
+        if(Account.AccountType.PERSONAL.toString().equalsIgnoreCase(rawType)){
+            return Account.AccountType.PERSONAL;
+        }
+
+        if(Account.AccountType.BUSINESS.toString().equalsIgnoreCase(rawType)){
+            return Account.AccountType.BUSINESS;
+        }
+
+        if(Account.AccountType.CHECKING.toString().equalsIgnoreCase(rawType)){
+            return Account.AccountType.CHECKING;
+        }
+
+        if(Account.AccountType.SAVING.toString().equalsIgnoreCase(rawType)){
+            return Account.AccountType.SAVING;
+        }
+
+        return null;
     }
 
     /**
