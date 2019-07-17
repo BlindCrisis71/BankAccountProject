@@ -15,6 +15,33 @@ public class Admin extends Customer {
 
         //Call the super method
         super.deleteAccount(accountDatabase, getUserID());
+
+    }
+
+    public void deposit(ArrayList<Account> accountDatabase){
+
+        super.deposit(accountDatabase, getUserID());
+
+    }
+
+    public void withdraw(ArrayList<Account> accountDatabase){
+
+        super.withdraw(accountDatabase, getUserID());
+    }
+
+    public void requestAccountSummary(ArrayList<Account> accountDatabase) {
+
+        super.requestAccountSummary(accountDatabase, getUserID());
+    }
+
+    public void requestTransactionDetails(ArrayList<Account> accountDatabase) {
+
+        super.requestTransactionDetails(accountDatabase, getUserID());
+    }
+
+    public void transferMoney(ArrayList<Account> accountDatabase) {
+
+        super.transferMoney(accountDatabase, getUserID());
     }
 
 

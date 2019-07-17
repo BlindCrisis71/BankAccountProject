@@ -10,6 +10,7 @@ public class Bank {
 
     public static void main(String[] args) {
 
+        //TODO: Serialize?
         //Hold all the accounts in the bank
         ArrayList<Account> accountDatabase = new ArrayList<>();
 
@@ -125,7 +126,7 @@ public class Bank {
                 //Show selection
                 System.out.println("Enter a selection:");
                 System.out.println("1. List all accounts");
-                System.out.println("2. List Accounts");
+                System.out.println("2. List Accounts with options");
                 System.out.println("3. Delete Account");
                 System.out.println("4. Create Account");
                 System.out.println("5. Deposit Money into an account");
