@@ -97,6 +97,21 @@ public class Account implements Serializable {
 
     }
 
+    /**
+     * Constructor
+     * @param accountType This account's type
+     */
+    public Account(String name, int pin, AccountType accountType) {
+
+        this.name = name;
+        this.pin = pin;
+        this.accountType = accountType;
+
+        //TODO: Generate the new AccountNumber
+        //TODO: Generate user id
+
+    }
+
     public double getBalance(){
         return money;
     }
