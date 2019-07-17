@@ -40,7 +40,7 @@ public class Account implements Serializable {
     /**
      * Activity log for this account
      */
-    private ArrayList<AccountActivity> activitylist;
+    private ArrayList<AccountActivity> activitylist = new ArrayList<>();
 
     /**
      * Object to access AccountType

@@ -112,7 +112,7 @@ public class Admin extends Customer {
     public void requestAccountSummary(ArrayList<Account> accountDatabase) {
 
         // Calls the super method
-        super.requestAccountSummary(accountDatabase, getUserID());
+        super.requestAccountDetails(accountDatabase, getUserID(), "Account summary");
     }
 
     /**
@@ -122,7 +122,7 @@ public class Admin extends Customer {
     public void requestTransactionDetails(ArrayList<Account> accountDatabase) {
 
         // Calls the super method
-        super.requestTransactionDetails(accountDatabase, getUserID());
+        super.requestAccountDetails(accountDatabase, getUserID(), "Transaction details");
     }
 
     /**
