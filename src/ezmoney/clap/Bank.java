@@ -52,8 +52,11 @@ public class Bank {
         //Hold user data
         boolean login = false;
         String userId = "";
+        int userIdParsed = 0;
         String pin = "";
+        int pinParsed = 0;
         String selection = "";
+        int selectionParsed = 0;
 
         String userType = "";
         int defaultAdminPassword = 1234;
@@ -62,8 +65,7 @@ public class Bank {
         //Get input
         Scanner consoleInput = new Scanner(System.in);
 
-
-        //TODO: Update this test code?
+        //Hold the database manipulators
         Customer customer = new Customer();
         Admin admin = new Admin();
 
@@ -77,17 +79,25 @@ public class Bank {
          */
         while(true){
 
-            //TODO: use a try catch on input
+            //Attempt to get input
+            try{
 
-            //Get account type
-            System.out.println("Enter user type (Admin or Customer): ");
-            System.out.println("(Enter 'exit' to close the program)");
-            userType = consoleInput.nextLine();
+                //Get account type
+                System.out.println("Enter user type (Admin or Customer): ");
+                System.out.println("(Enter 'exit' to close the program)");
+                userType = consoleInput.nextLine();
+
+                //End the program if necessary
+                endProgram(userType, accountDatabase);
 
 
+            }catch(Exception e){
 
-            //End the program if necessary
-            endProgram(userType, accountDatabase);
+                //Get input again if input could not be validated
+                System.out.println("Incorrect input!");
+                continue;
+            }
+
 
 
             //Check type
@@ -121,21 +131,33 @@ public class Bank {
             while(!login){
 
 
-                //TODO: use a try catch on input
-                //Get the pin
-                System.out.println("\nEnter the Admin pin: ");
-                System.out.println("Enter 'exit' to close the program.");
+                //Attempt to get input
+                try{
 
-                pin = consoleInput.nextLine();
+                    //Get the pin
+                    System.out.println("\nEnter the Admin pin: ");
+                    System.out.println("Enter 'exit' to close the program.");
+
+                    pin = consoleInput.nextLine();
+
+                    //Exit the program if necessary
+                    endProgram(pin, accountDatabase);
+
+                    //Parse input
+                    pinParsed = Integer.parseInt(pin);
+
+                }catch(Exception e){
+
+                    //Get input again if input could not be validated
+                    System.out.println("Incorrect input!");
+                    continue;
+                }
 
 
-                //Exit the program if necessary
-                endProgram(pin, accountDatabase);
 
 
-                //TODO: See if try catch is necessary
                 //The password matches
-                if(Integer.parseInt(pin) == defaultAdminPassword){
+                if(pinParsed == defaultAdminPassword){
 
                     //Break this loop
                     System.out.println("\nLogging in... Welcome!\n");
@@ -155,7 +177,6 @@ public class Bank {
             while(login){
 
 
-                //TODO: use a try catch on input
                 //Show selection
                 System.out.println("Enter a selection:");
                 System.out.println("1. List all accounts");
@@ -171,18 +192,33 @@ public class Bank {
 
                 System.out.println("Selection: ");
 
-                //Get input
-                selection = consoleInput.nextLine();
+
+                //Attempt to get input
+                try{
+
+                    //Get input
+                    selection = consoleInput.nextLine();
+
+                    //Exit the program if necessary
+                    endProgram(selection, accountDatabase);
+
+                    //Parse input
+                    selectionParsed = Integer.parseInt(selection);
+
+                }catch(Exception e){
+
+                    //Get input again if input could not be validated
+                    System.out.println("Incorrect input!");
+                    continue;
+                }
 
 
 
-                //Exit the program if necessary
-                endProgram(selection, accountDatabase);
 
 
 
                 //Run Admin code
-                switch(Integer.parseInt(selection)){
+                switch(selectionParsed){
 
                     case 1:
 
@@ -217,35 +253,30 @@ public class Bank {
                     case 6:
 
                         //Deposit money into the specified account
-                        //TODO: Do NOT pass userID from here. Override the customer methods in customer if needed.
                         admin.deposit(accountDatabase);
 
                         break;
                     case 7:
 
                         //Withdraw money from the specified account
-                        //TODO: Do NOT pass userID from here. Override the customer methods in customer if needed.
                         admin.withdraw(accountDatabase);
 
                         break;
                     case 8:
 
                         //Get info from specified account
-                        //TODO: Do NOT pass userID from here. Override the customer methods in customer if needed.
                         admin.requestAccountSummary(accountDatabase);
 
                         break;
                     case 9:
 
                         //Get transaction history from specified account
-                        //TODO: Do NOT pass userID from here. Override the customer methods in customer if needed.
                         admin.requestTransactionDetails(accountDatabase);
 
                         break;
                     case 10:
 
                         //Send money from a specified account to another specified account
-                        //TODO: Do NOT pass userID from here. Override the customer methods in customer if needed.
                         admin.transferMoney(accountDatabase);
 
                         break;
@@ -279,28 +310,42 @@ public class Bank {
             //Loop through customer login attempts
             while(!login){
 
+                //Attempt to get input
+                try{
 
-                //TODO: use a try catch on input
-                //Get credentials
-                System.out.println("\n-----LOGIN-----");
+                    //Get credentials
+                    System.out.println("\n-----LOGIN-----");
 
-                System.out.println("Enter UserID:");
+                    System.out.println("Enter UserID:");
 
-                //Hold input
-                userId = consoleInput.nextLine();
+                    //Hold input
+                    userId = consoleInput.nextLine();
+
+                    //End program if necessary
+                    endProgram(userId, accountDatabase);
+
+                    //Parse input
+                    userIdParsed = Integer.parseInt(userId);
 
 
-                //End program if necessary
-                endProgram(userId, accountDatabase);
 
+                    System.out.println("Enter Pin:");
 
-                System.out.println("Enter Pin:");
+                    //Hold input
+                    pin = consoleInput.nextLine();
 
-                //Hold input
-                pin = consoleInput.nextLine();
+                    //End program if necessary
+                    endProgram(pin, accountDatabase);
 
-                //End program if necessary
-                endProgram(pin, accountDatabase);
+                    //Parse input
+                    pinParsed = Integer.parseInt(pin);
+
+                }catch(Exception e){
+
+                    //Get input again if input could not be validated
+                    System.out.println("Incorrect input!");
+                    continue;
+                }
 
 
 
@@ -309,12 +354,12 @@ public class Bank {
                 for(Account a : accountDatabase){
 
                     //See if name matches
-                    if(a.getUserID() == Integer.parseInt(userId)){
+                    if(a.getUserID() == userIdParsed){
 
                         //Found an account with the same name!
 
                         //See if pin matches
-                        if(a.getPin() == Integer.parseInt(pin)){
+                        if(a.getPin() == pinParsed){
 
                             //Notify account has been found
                             login = true;
@@ -352,8 +397,6 @@ public class Bank {
             while(login){
 
 
-                //TODO: use a try catch on input
-
                 //Show selection
                 System.out.println("Enter a selection:");
                 System.out.println("1. List my Accounts");
@@ -367,32 +410,45 @@ public class Bank {
 
                 System.out.println("Selection: ");
 
-                //Get input
-                selection = consoleInput.nextLine();
+
+                //Attempt to get input
+                try{
+
+                    //Get input
+                    selection = consoleInput.nextLine();
+
+                    //Exit the program if necessary
+                    endProgram(selection, accountDatabase);
+
+                    //Parse input
+                    selectionParsed = Integer.parseInt(selection);
 
 
+                }catch(Exception e){
 
-                //Exit the program if necessary
-                endProgram(selection, accountDatabase);
+                    //Get input again if input could not be validated
+                    System.out.println("Incorrect input!");
+                    continue;
+                }
+
+
 
 
 
                 //Run customer code
-                switch(Integer.parseInt(selection)){
+                switch(selectionParsed){
 
-
-                    //TODO: Make sure if Integer.parseInt needs try/catch block
 
                     case 1:
 
                         //Show accounts tied to userId
-                        customer.listMyAccounts(accountDatabase, Integer.parseInt(userId));
+                        customer.listMyAccounts(accountDatabase, userIdParsed);
 
                         break;
                     case 2:
 
                         //Delete account specified
-                        customer.deleteAccount(accountDatabase, Integer.parseInt(userId));
+                        customer.deleteAccount(accountDatabase, userIdParsed);
 
                         break;
                     case 3:
@@ -404,31 +460,31 @@ public class Bank {
                     case 4:
 
                         //Deposit money to the account specified
-                        customer.deposit(accountDatabase, Integer.parseInt(userId));
+                        customer.deposit(accountDatabase, userIdParsed);
 
                         break;
                     case 5:
 
                         //Withdraw money from the account specified
-                        customer.withdraw(accountDatabase, Integer.parseInt(userId));
+                        customer.withdraw(accountDatabase, userIdParsed);
 
                         break;
                     case 6:
 
                         //Get specified accounts activity
-                        customer.requestAccountSummary(accountDatabase, Integer.parseInt(userId));
+                        customer.requestAccountDetails(accountDatabase, userIdParsed, "Account summary");
 
                         break;
                     case 7:
 
                         //Get specified accounts transaction history
-                        customer.requestTransactionDetails(accountDatabase, Integer.parseInt(userId));
+                        customer.requestAccountDetails(accountDatabase, userIdParsed, "Transaction details");
 
                         break;
                     case 8:
 
                         //Send money from the specified account to another specified account
-                        customer.transferMoney(accountDatabase, Integer.parseInt(userId));
+                        customer.transferMoney(accountDatabase, userIdParsed);
 
                         break;
 

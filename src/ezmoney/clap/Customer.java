@@ -10,7 +10,7 @@ public class Customer {
 
 
     /**
-     * Show accounts tied to userId
+     * Show all accounts tied to userId
      *
      * @param accountDatabase The list of all bank accounts
      * @param userID          The user id that may be tied to multiple bank accounts
@@ -33,7 +33,7 @@ public class Customer {
 
 
     /**
-     * Delete the account specified
+     * Delete the account specified using the userID and an account number
      *
      * @param accountDatabase The list of all bank accounts
      * @param userID          The user id that may be tied to multiple bank accounts
@@ -179,10 +179,10 @@ public class Customer {
 
 
     /**
-     * Deposit money to the account specified
+     * Deposit money to the account specified using the userID and an account number
      *
-     * @param accountDatabase
-     * @param userID
+     * @param accountDatabase The list of all bank accounts
+     * @param userID          The user id that may be tied to multiple bank accounts
      */
     public void deposit(ArrayList<Account> accountDatabase, int userID) {
 
@@ -234,10 +234,10 @@ public class Customer {
 
 
     /**
-     * Withdraw money from the account specified
+     * Withdraw money from the account specified using the userID and an account number
      *
-     * @param accountDatabase
-     * @param userID
+     * @param accountDatabase The list of all bank accounts
+     * @param userID          The user id that may be tied to multiple bank accounts
      */
     public void withdraw(ArrayList<Account> accountDatabase, int userID) {
 
@@ -297,13 +297,16 @@ public class Customer {
     }
 
 
+
+
+
     /**
-     * Get specified accounts activity
+     * Get specified accounts activity using the userID and an account number
      *
-     * @param accountDatabase
-     * @param userID
+     * @param accountDatabase The list of all bank accounts
+     * @param userID          The user id that may be tied to multiple bank accounts
      */
-    public void requestAccountSummary(ArrayList<Account> accountDatabase, int userID) {
+    public void requestAccountDetails(ArrayList<Account> accountDatabase, int userID, String type) {
 
         int accountNumber = 0;
 
@@ -329,6 +332,12 @@ public class Customer {
                 found = true;
                 System.out.println(a.toString());
 
+                //Show account activity if necessary
+                if(type.equalsIgnoreCase("Transaction details")){
+
+                    a.showActivity();
+                }
+
             }
         }
 
@@ -342,54 +351,13 @@ public class Customer {
 
     }
 
-
-    //Get specified accounts transaction history
-    //TODO: This is the exact same code as in 'requestAccountSummary'. Should the two methods be merged?
-    public void requestTransactionDetails(ArrayList<Account> accountDatabase, int userID) {
-
-        int accountNumber = 0;
-
-        try {
-
-            //Get input
-            System.out.println("Enter the accounts number that you want a summary for: ");
-            accountNumber = consoleInput.nextInt();
-        } catch (Exception ex) {
-            System.out.println("Incorrect input! Returning to main menu.");
-        }
-
-
-        //Flag if the account is found
-        boolean found = false;
-
-
-        //Find the account
-        for (Account a : accountDatabase) {
-
-            if (a.getUserID() == userID && a.getAccountNumber() == accountNumber) {
-
-                //Display the account info
-                found = true;
-                System.out.println(a.toString());
-                a.showActivity();
-
-            }
-        }
-
-        //Tell user the account was not found
-        if (!found) {
-
-            System.out.println("The specified account could not be found!");
-        }
-
-    }
 
 
     /**
      * Send money from the specified account to another specified account
      *
-     * @param accountDatabase
-     * @param userID
+     * @param accountDatabase The list of all bank accounts
+     * @param userID          The user id that may be tied to multiple bank accounts
      */
     public void transferMoney(ArrayList<Account> accountDatabase, int userID) {
 
