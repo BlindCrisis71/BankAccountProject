@@ -96,7 +96,7 @@ public class Customer {
      *
      * @param accountDatabase The list of all bank accounts
      */
-    public void createAccount(ArrayList<Account> accountDatabase) {
+    public void createAccount(ArrayList<Account> accountDatabase, String userId) {
 
         String name = "";
 
@@ -104,7 +104,7 @@ public class Customer {
 
         String type = "";
 
-        int userID = 0;
+        int userIDinput = 0;
 
         try {
             //Get the data for this account
@@ -112,18 +112,28 @@ public class Customer {
             name = consoleInput.nextLine();
 
             System.out.println("Enter a new pin for this account: ");
-            pin = consoleInput.nextInt();
+            String pinString = consoleInput.nextLine();
+            pin = Integer.parseInt(pinString);
 
-            System.out.println("Enter the account type (Personal, Business, Checking, Saving): ");
-            type = consoleInput.nextLine();
+                System.out.println("Enter the account type (Personal, Business, Checking, Saving): ");
+                type = consoleInput.nextLine();
 
-            System.out.println("Enter the userID for this account: ");
-            userID = consoleInput.nextInt();
+
+            //Get user id if necessary (Admin)
+            if(userId.equalsIgnoreCase("")){
+
+                System.out.println("Enter an existing userID for this account (or 0 to generate a new id): ");
+                userIDinput = consoleInput.nextInt();
+            }else{
+
+                //Set the userID if it is passed in
+                userIDinput = Integer.parseInt(userId);
+            }
+
         } catch (Exception ex) {
 
             System.out.println("Incorrect input! Returning to main menu.");
         }
-
 
 
         //Get the correct enum value
@@ -137,14 +147,32 @@ public class Customer {
 
         } else {
 
-            //Create the new account
-            Account account = new Account(name, pin, enumType, userID);
-            accountDatabase.add(account);
+            if(userIDinput == 0){
 
-            //Notify the user
-            System.out.println("The account has been created!");
-            System.out.println("Account info:");
-            System.out.println(account.toString());
+                //Generate the userID
+
+                //Create the new account
+                Account account = new Account(name, pin, enumType);
+                accountDatabase.add(account);
+
+                //Notify the user
+                System.out.println("The account has been created!");
+                System.out.println("Account info:");
+                System.out.println(account.toString());
+
+            }else{
+
+                //Do not generate the userID
+
+                //Create the new account
+                Account account = new Account(name, pin, enumType, userIDinput);
+                accountDatabase.add(account);
+
+                //Notify the user
+                System.out.println("The account has been created!");
+                System.out.println("Account info:");
+                System.out.println(account.toString());
+            }
         }
 
     }

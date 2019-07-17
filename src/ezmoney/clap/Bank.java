@@ -1,5 +1,6 @@
 package ezmoney.clap;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,9 +11,41 @@ public class Bank {
 
     public static void main(String[] args) {
 
-        //TODO: Serialize?
         //Hold all the accounts in the bank
-        ArrayList<Account> accountDatabase = new ArrayList<>();
+        ArrayList<Account> accountDatabase = new ArrayList<Account>();
+
+
+        //Deserialize file (load accountDatabase)
+        try
+        {
+            FileInputStream fis = new FileInputStream("./data/AccountData");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            accountDatabase = (ArrayList<Account>) ois.readObject();
+
+            ois.close();
+            fis.close();
+        }
+        catch (IOException ioe)
+        {
+            //ioe.printStackTrace();
+            System.out.println("Error: The account database file could not be found! It will be created on exit!\n");
+
+        }
+        catch (ClassNotFoundException c)
+        {
+            System.out.println("Class not found");
+            c.printStackTrace();
+
+        }
+
+        //TODO: Remove this test code
+        //Verify list data
+        for (Account a : accountDatabase) {
+            System.out.println(a);
+        }
+
+
 
 
 
@@ -54,7 +87,7 @@ public class Bank {
 
 
             //End the program if necessary
-            endProgram(userType);
+            endProgram(userType, accountDatabase);
 
 
             //Check type
@@ -97,7 +130,7 @@ public class Bank {
 
 
                 //Exit the program if necessary
-                endProgram(pin);
+                endProgram(pin, accountDatabase);
 
 
                 //TODO: See if try catch is necessary
@@ -144,7 +177,7 @@ public class Bank {
 
 
                 //Exit the program if necessary
-                endProgram(selection);
+                endProgram(selection, accountDatabase);
 
 
 
@@ -154,7 +187,7 @@ public class Bank {
                     case 1:
 
                         //List all accounts in the bank
-                        admin.listAllAccounts(accountDatabase);
+                        //admin.listAllAccounts(accountDatabase);
 
                         break;
                     case 2:
@@ -178,7 +211,7 @@ public class Bank {
                     case 5:
 
                         //Create a new account
-                        admin.createAccount(accountDatabase);
+                        admin.createAccount(accountDatabase, "");
 
                         break;
                     case 6:
@@ -258,7 +291,7 @@ public class Bank {
 
 
                 //End program if necessary
-                endProgram(userId);
+                endProgram(userId, accountDatabase);
 
 
                 System.out.println("Enter Pin:");
@@ -267,7 +300,7 @@ public class Bank {
                 pin = consoleInput.nextLine();
 
                 //End program if necessary
-                endProgram(pin);
+                endProgram(pin, accountDatabase);
 
 
 
@@ -340,7 +373,7 @@ public class Bank {
 
 
                 //Exit the program if necessary
-                endProgram(selection);
+                endProgram(selection, accountDatabase);
 
 
 
@@ -365,7 +398,7 @@ public class Bank {
                     case 3:
 
                         //Create a new account
-                        customer.createAccount(accountDatabase);
+                        customer.createAccount(accountDatabase, userId);
 
                         break;
                     case 4:
@@ -415,9 +448,26 @@ public class Bank {
     }
 
 
-    public static void endProgram(String value){
+    //Save account database and end the program
+    public static void endProgram(String value, ArrayList<Account> accountDatabase){
 
         if(value.equalsIgnoreCase("exit")){
+
+            //Serialize to file (save accountDatabase)
+            try
+            {
+                FileOutputStream fos = new FileOutputStream("./data/AccountData");
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                oos.writeObject(accountDatabase);
+                oos.close();
+                fos.close();
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+            }
+
+
             System.out.println("\nThank you for your business!");
             System.out.println("Please come again!");
             exit(0);

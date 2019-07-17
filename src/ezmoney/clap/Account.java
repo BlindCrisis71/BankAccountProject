@@ -1,8 +1,9 @@
 package ezmoney.clap;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Account {
+public class Account implements Serializable {
 
 
     //TODO: Use static counter to keep track of ids
@@ -208,10 +209,13 @@ public class Account {
     @Override
     public String toString() {
 
+        //TODO: Format money to use money symbol!
         return "Account number: " + accountNumber +
                 "\nUser ID: " + userID +
                 "\nName: " + name +
                 "\nAccount type: " + accountType +
-                "\nMoney: " + money + "\n";
+                "\nMoney: " + money + "\n" +
+                "\nPin: " + pin + "\n";
     }
+
 }
