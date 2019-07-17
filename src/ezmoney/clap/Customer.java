@@ -268,19 +268,7 @@ public class Customer {
 
                 found = true;
 
-                //Attempt to withdraw money
-                if (a.getBalance() - amount < 0) {
-
-                    System.out.println("Cannot withdraw: " + amount + "!");
-                    System.out.println("The balance is too low!: " + a.getBalance());
-
-                } else {
-
-                    a.withdraw(amount);
-
-                    System.out.println("The money was successfully withdrawn!");
-                    System.out.println("Your new balance is: " + a.getBalance());
-                }
+                a.withdraw(amount);
 
             }
 

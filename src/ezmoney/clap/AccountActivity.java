@@ -55,14 +55,13 @@ public class AccountActivity {
 
     /**
      * Constructor
-     * @param dateAccessed When account was accessed
      * @param amountMoved How much money was transferred
      * @param transferredAccountNumber Account number for transfer
      * @param moveType Type of transaction
      */
-    public AccountActivity(Date dateAccessed, double amountMoved, int transferredAccountNumber, MoveType moveType) {
+    public AccountActivity(double amountMoved, int transferredAccountNumber, MoveType moveType) {
 
-        this.dateAccessed = dateAccessed;
+        dateAccessed = new Date();
         this.amountMoved = amountMoved;
         this.transferredAccountNumber = transferredAccountNumber;
         this.moveType = moveType;
@@ -75,7 +74,7 @@ public class AccountActivity {
     @Override
     public String toString() {
 
-        return "Date accessed: " + dateAccessed +
+        return "Date accessed: " + dateAccessed.toString() +
                "Type of transaction: " + moveType.toString() +
                "\nAmount moved: " + amountMoved +
                "\nAccount number: " + transferredAccountNumber;

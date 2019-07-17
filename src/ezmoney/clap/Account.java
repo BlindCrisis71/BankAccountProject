@@ -5,8 +5,6 @@ import java.util.ArrayList;
 
 public class Account implements Serializable {
 
-
-    //TODO: Use static counter to keep track of ids
     //Unique id's are created by incrementing
     //Old id's are never recycled
     public static int accountNumberCounter = 9000;
@@ -93,8 +91,8 @@ public class Account implements Serializable {
         this.accountType = accountType;
         this.userID = userID;
 
-        //TODO: Generate the new AccountNumber
-
+        // Sets accountNumber for this account
+        accountNumber = ++accountNumberCounter;
     }
 
     /**
@@ -107,11 +105,16 @@ public class Account implements Serializable {
         this.pin = pin;
         this.accountType = accountType;
 
-        //TODO: Generate the new AccountNumber
-        //TODO: Generate user id
-
+        // Sets accountNumber for this account
+        accountNumber = ++accountNumberCounter;
+        // Sets userID for this account
+        userID = ++userIdCounter;
     }
 
+    /**
+     * Returns the current balance of this account
+     * @return Balance of account
+     */
     public double getBalance(){
         return money;
     }
@@ -122,7 +125,12 @@ public class Account implements Serializable {
      */
     public void deposit(double moneyAmount) {
 
-        // TODO Write "deposit" function
+        // Add specified amount of money to account
+        money += moneyAmount;
+
+        // Log account account activity
+        AccountActivity activity = new AccountActivity(moneyAmount, accountNumber, AccountActivity.MoveType.DEPOSIT);
+        activitylist.add(activity);
     }
 
     /**
@@ -131,7 +139,24 @@ public class Account implements Serializable {
      */
     public void withdraw(double moneyAmount) {
 
-        // TODO Write "withdraw" function
+        //Attempt to withdraw money
+        if (money - moneyAmount < 0) {
+
+            System.out.println("Cannot withdraw: " + moneyAmount + "!");
+            System.out.println("The balance is too low!: " + money);
+
+        } else {
+
+            // Removes specified amount of money from account
+            money -= moneyAmount;
+
+            // Log account account activity
+            AccountActivity activity = new AccountActivity(moneyAmount, accountNumber, AccountActivity.MoveType.WITHDRAW);
+            activitylist.add(activity);
+
+            System.out.println("The money was successfully withdrawn!");
+            System.out.println("Your new balance is: " + money);
+        }
     }
 
     /**
@@ -184,7 +209,6 @@ public class Account implements Serializable {
      */
     public void showActivity() {
 
-        // TODO Double check I wrote "showActivity" correctly after finishing the "AccountActivity" class
         for (AccountActivity activity : activitylist) {
 
             System.out.println(activity.toString());
@@ -224,12 +248,11 @@ public class Account implements Serializable {
     @Override
     public String toString() {
 
-        //TODO: Format money to use money symbol!
         return "Account number: " + accountNumber +
                 "\nUser ID: " + userID +
                 "\nName: " + name +
                 "\nAccount type: " + accountType +
-                "\nMoney: " + money + "\n" +
+                "\nMoney: $" + money + "\n" +
                 "\nPin: " + pin + "\n";
     }
 
