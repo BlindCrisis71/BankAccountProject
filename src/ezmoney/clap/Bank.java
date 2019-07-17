@@ -171,7 +171,7 @@ public class Bank {
                     case 4:
 
                         //Create a new account
-                        admin.createAccount(accountDatabase);
+                        admin.createAccount(accountDatabase, "");
 
                         break;
                     case 5:
@@ -358,7 +358,7 @@ public class Bank {
                     case 3:
 
                         //Create a new account
-                        customer.createAccount(accountDatabase);
+                        customer.createAccount(accountDatabase, userId);
 
                         break;
                     case 4:
