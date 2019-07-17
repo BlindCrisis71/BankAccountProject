@@ -1,3 +1,24 @@
+/*
+
+Author: Brandyn Call
+Author: Mujtaba Ashfaq
+
+Created: 7/9/19
+Last Edited: 7/17/19
+
+About:
+CS 3230 Midterm project. It is an application that mimics the way banking software would function.
+The user can access the system using an admin account or a customer account. Customers can manipulate their
+accounts and admins can manipulate all accounts.
+
+Execution:
+Run the driver class 'Bank'. One first execution, the database will not be initialized. In order to populate the
+database, login as the admin using the pin 1234. The database will not be saved unless the user exits the program
+using the 'exit' term in a main menu. Once the database has been initialized, the customers can login to access the
+accounts that were created by the admin.
+
+ */
+
 package ezmoney.clap;
 
 import java.io.Serializable;
@@ -5,11 +26,17 @@ import java.util.ArrayList;
 
 public class Account implements Serializable {
 
-    //Unique id's are created by incrementing
-    //Old id's are never recycled
-    public static int accountNumberCounter = 9000;
-    public static int userIdCounter = 100;
+    /**
+     * Unique account number.
+     * Old id's are never recycled.
+     */
+    private static int accountNumberCounter = 9000;
 
+    /**
+     * Unique userID number.
+     * Old id's are never recycled.
+     */
+    private static int userIDCounter = 100;
 
 
     /**
@@ -69,6 +96,7 @@ public class Account implements Serializable {
 
         /**
          * Displays type of account
+         *
          * @return Type of account
          */
         @Override
@@ -77,11 +105,11 @@ public class Account implements Serializable {
             return type;
         }
 
-
     }
 
     /**
      * Constructor
+     *
      * @param accountType This account's type
      */
     public Account(String name, int pin, AccountType accountType, int userID) {
@@ -97,6 +125,7 @@ public class Account implements Serializable {
 
     /**
      * Constructor
+     *
      * @param accountType This account's type
      */
     public Account(String name, int pin, AccountType accountType) {
@@ -107,43 +136,95 @@ public class Account implements Serializable {
 
         // Sets accountNumber for this account
         accountNumber = ++accountNumberCounter;
+
         // Sets userID for this account
-        userID = ++userIdCounter;
+        userID = ++userIDCounter;
+    }
+
+    /**
+     * Get the account number value.
+     * Used for saving to a file.
+     *
+     * @return Returns the account number counter value
+     */
+    public static int getAccountNumberCounter() {
+        return accountNumberCounter;
+    }
+
+    /**
+     * Gets the UserID counter value.
+     * Used for saving to a file.
+     *
+     * @return Returns the UserID counter value
+     */
+    public static int getUserIDCounter() {
+        return userIDCounter;
+    }
+
+    /**
+     * Set the accountNumberCounter value.
+     *
+     * @param counter The saved counter value to be set to the static account counter member.
+     */
+    public static void setAccountNumberCounter(int counter) {
+        accountNumberCounter = counter;
+    }
+
+    /**
+     * Set the userIDCounter value.
+     *
+     * @param counter The saved counter value to be set to the static userID counter member.
+     */
+    public static void setUserIDCounter(int counter) {
+        userIDCounter = counter;
     }
 
     /**
      * Returns the current balance of this account
+     *
      * @return Balance of account
      */
-    public double getBalance(){
+    public double getBalance() {
         return money;
     }
 
     /**
      * Deposits money into account
+     *
      * @param moneyAmount Amount of money to be deposited
      */
-    public void deposit(double moneyAmount) {
+    public void deposit(double moneyAmount, boolean transfer) {
 
         // Add specified amount of money to account
         money += moneyAmount;
 
         // Log account account activity
-        AccountActivity activity = new AccountActivity(moneyAmount, accountNumber, AccountActivity.MoveType.DEPOSIT);
-        activitylist.add(activity);
+        if (transfer) {
+
+            AccountActivity activity = new AccountActivity(moneyAmount, accountNumber, AccountActivity.MoveType.TRANSFER);
+            activitylist.add(activity);
+
+        } else {
+
+            AccountActivity activity = new AccountActivity(moneyAmount, accountNumber, AccountActivity.MoveType.DEPOSIT);
+            activitylist.add(activity);
+        }
+
     }
 
     /**
      * Withdraws money from account
+     *
      * @param moneyAmount Amount of money to be withdrawn
      */
-    public void withdraw(double moneyAmount) {
+    public void withdraw(double moneyAmount, boolean transfer) {
 
         //Attempt to withdraw money
         if (money - moneyAmount < 0) {
 
-            System.out.println("Cannot withdraw: " + moneyAmount + "!");
-            System.out.println("The balance is too low!: " + money);
+            //Notify user
+            System.out.println("Cannot withdraw: $" + String.format("%,.2f", moneyAmount) + "!");
+            System.out.println("The balance is too low!: $" + String.format("%,.2f", money));
 
         } else {
 
@@ -151,16 +232,26 @@ public class Account implements Serializable {
             money -= moneyAmount;
 
             // Log account account activity
-            AccountActivity activity = new AccountActivity(moneyAmount, accountNumber, AccountActivity.MoveType.WITHDRAW);
-            activitylist.add(activity);
+            if (transfer) {
 
+                AccountActivity activity = new AccountActivity(moneyAmount, accountNumber, AccountActivity.MoveType.TRANSFER);
+                activitylist.add(activity);
+
+            } else {
+
+                AccountActivity activity = new AccountActivity(moneyAmount, accountNumber, AccountActivity.MoveType.WITHDRAW);
+                activitylist.add(activity);
+            }
+
+            //Notify user
             System.out.println("The money was successfully withdrawn!");
-            System.out.println("Your new balance is: " + money);
+            System.out.println("Your new balance is: $" + String.format("%,.2f", money));
         }
     }
 
     /**
      * Returns the type of this account
+     *
      * @return This account's type
      */
     public AccountType getType() {
@@ -170,6 +261,7 @@ public class Account implements Serializable {
 
     /**
      * Returns the user's id
+     *
      * @return User id
      */
     public int getUserID() {
@@ -179,6 +271,7 @@ public class Account implements Serializable {
 
     /**
      * Returns the user's pin
+     *
      * @return User's pin
      */
     public int getPin() {
@@ -188,6 +281,7 @@ public class Account implements Serializable {
 
     /**
      * Returns the account holder's name
+     *
      * @return Account holder's name
      */
     public String getHoldersName() {
@@ -197,6 +291,7 @@ public class Account implements Serializable {
 
     /**
      * Returns the account number
+     *
      * @return Account number
      */
     public int getAccountNumber() {
@@ -217,24 +312,25 @@ public class Account implements Serializable {
 
     /**
      * Converts an input string from the console into the correct enum type
-     * @param rawType
-     * @return
+     *
+     * @param rawType The string that will be converted to an enum
+     * @return Returns an enum by using a string value
      */
-    public static AccountType convertString(String rawType){
+    public static AccountType convertString(String rawType) {
 
-        if(Account.AccountType.PERSONAL.toString().equalsIgnoreCase(rawType)){
+        if (Account.AccountType.PERSONAL.toString().equalsIgnoreCase(rawType)) {
             return Account.AccountType.PERSONAL;
         }
 
-        if(Account.AccountType.BUSINESS.toString().equalsIgnoreCase(rawType)){
+        if (Account.AccountType.BUSINESS.toString().equalsIgnoreCase(rawType)) {
             return Account.AccountType.BUSINESS;
         }
 
-        if(Account.AccountType.CHECKING.toString().equalsIgnoreCase(rawType)){
+        if (Account.AccountType.CHECKING.toString().equalsIgnoreCase(rawType)) {
             return Account.AccountType.CHECKING;
         }
 
-        if(Account.AccountType.SAVING.toString().equalsIgnoreCase(rawType)){
+        if (Account.AccountType.SAVING.toString().equalsIgnoreCase(rawType)) {
             return Account.AccountType.SAVING;
         }
 
@@ -243,17 +339,39 @@ public class Account implements Serializable {
 
     /**
      * Returns a summary of this account
+     *
+     * @return Summary of this account
+     */
+    public String print() {
+
+        String formatMoney = String.format("%,.2f", money);
+
+        return "Name: " + name +
+                "\nUser ID: " + userID +
+                "\nAccount number: " + accountNumber +
+                "\nAccount type: " + accountType +
+                "\nMoney: $" + formatMoney +
+                "\nPin: " + pin + "\n";
+    }
+
+
+    /**
+     * Returns a summary of this account
+     *
      * @return Summary of this account
      */
     @Override
     public String toString() {
 
-        return "Account number: " + accountNumber +
+        return "Name: " + name +
                 "\nUser ID: " + userID +
-                "\nName: " + name +
+                "\nAccount number: " + accountNumber +
                 "\nAccount type: " + accountType +
-                "\nMoney: $" + money + "\n" +
-                "\nPin: " + pin + "\n";
+                "\nMoney: $" + money +
+                "\nPin: " + pin +
+                "\nAccountCounter: " + accountNumberCounter +
+                "\nUIDCounter " + userIDCounter +
+                "\nActivity" + activitylist + "\n";
     }
 
 }

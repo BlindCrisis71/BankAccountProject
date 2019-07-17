@@ -1,3 +1,33 @@
+/*
+
+Author: Brandyn Call
+Author: Mujtaba Ashfaq
+
+Created: 7/9/19
+Last Edited: 7/17/19
+
+About:
+CS 3230 Midterm project. It is an application that mimics the way banking software would function.
+The user can access the system using an admin account or a customer account. Customers can manipulate their
+accounts and admins can manipulate all accounts.
+
+Execution:
+Run the driver class 'Bank'. One first execution, the database will not be initialized. In order to populate the
+database, login as the admin using the pin 1234. The database will not be saved unless the user exits the program
+using the 'exit' term in a main menu. Once the database has been initialized, the customers can login to access the
+accounts that were created by the admin.
+
+Note:
+Use this test code to make sure all accounts are being populated.
+Check the todo below.
+
+//Verify list data
+for (Account a : accountDatabase) {
+    System.out.println(a);
+}
+
+ */
+
 package ezmoney.clap;
 
 import java.io.*;
@@ -14,10 +44,26 @@ public class Bank {
         //Hold all the accounts in the bank
         ArrayList<Account> accountDatabase = new ArrayList<Account>();
 
+        //Hold input file
+        InputStream inputFile;
+
 
         //Deserialize file (load accountDatabase)
-        try
-        {
+        try {
+
+            //Get the account counter data
+            File file = new File("./data/AccountCounter.txt");
+            Scanner in = new Scanner(file);
+
+            String tempAccountCounter = in.nextLine();
+            String tempUserCounter = in.nextLine();
+
+            Account.setAccountNumberCounter(Integer.parseInt(tempAccountCounter));
+            Account.setUserIDCounter(Integer.parseInt(tempUserCounter));
+            in.close();
+
+
+            //Get the account database data
             FileInputStream fis = new FileInputStream("./data/AccountData");
             ObjectInputStream ois = new ObjectInputStream(fis);
 
@@ -25,28 +71,25 @@ public class Bank {
 
             ois.close();
             fis.close();
-        }
-        catch (IOException ioe)
-        {
+
+        } catch (IOException ioe) {
+
             //ioe.printStackTrace();
             System.out.println("Error: The account database file could not be found! It will be created on exit!\n");
 
-        }
-        catch (ClassNotFoundException c)
-        {
+        } catch (ClassNotFoundException c) {
+
             System.out.println("Class not found");
             c.printStackTrace();
 
         }
 
-        //TODO: Remove this test code
+        //TODO: Use this test code to view all account data from the file.
+        /*
         //Verify list data
         for (Account a : accountDatabase) {
             System.out.println(a);
-        }
-
-
-
+        }*/
 
 
         //Hold user data
@@ -61,7 +104,6 @@ public class Bank {
         String userType = "";
         int defaultAdminPassword = 1234;
 
-
         //Get input
         Scanner consoleInput = new Scanner(System.in);
 
@@ -71,16 +113,13 @@ public class Bank {
 
 
 
-
-
-
         /*
         Get the account type
          */
-        while(true){
+        while (true) {
 
             //Attempt to get input
-            try{
+            try {
 
                 //Get account type
                 System.out.println("Enter user type (Admin or Customer): ");
@@ -91,7 +130,7 @@ public class Bank {
                 endProgram(userType, accountDatabase);
 
 
-            }catch(Exception e){
+            } catch (Exception e) {
 
                 //Get input again if input could not be validated
                 System.out.println("Incorrect input!");
@@ -99,14 +138,13 @@ public class Bank {
             }
 
 
-
             //Check type
-            if(!userType.equalsIgnoreCase("admin") && !userType.equalsIgnoreCase("customer")){
+            if (!userType.equalsIgnoreCase("admin") && !userType.equalsIgnoreCase("customer")) {
 
                 //Neither account type selected
                 System.out.println("Incorrect value entered!");
 
-            }else{
+            } else {
 
                 //Account selected
                 //Move onto next code
@@ -117,22 +155,16 @@ public class Bank {
 
 
 
-
-
-
         /*
         Run code for bank teller
         */
-        if(userType.equalsIgnoreCase("admin")){
-
-
+        if (userType.equalsIgnoreCase("admin")) {
 
             //Login admin
-            while(!login){
-
+            while (!login) {
 
                 //Attempt to get input
-                try{
+                try {
 
                     //Get the pin
                     System.out.println("\nEnter the Admin pin: ");
@@ -146,7 +178,7 @@ public class Bank {
                     //Parse input
                     pinParsed = Integer.parseInt(pin);
 
-                }catch(Exception e){
+                } catch (Exception e) {
 
                     //Get input again if input could not be validated
                     System.out.println("Incorrect input!");
@@ -154,31 +186,26 @@ public class Bank {
                 }
 
 
-
-
                 //The password matches
-                if(pinParsed == defaultAdminPassword){
+                if (pinParsed == defaultAdminPassword) {
 
                     //Break this loop
                     System.out.println("\nLogging in... Welcome!\n");
                     login = true;
                     break;
 
-                }else{
+                } else {
 
                     System.out.println("Invalid credentials!");
                 }
             }
 
 
-
-
             //Show admin selection
-            while(login){
-
+            while (login) {
 
                 //Show selection
-                System.out.println("Enter a selection:");
+                System.out.println("\nEnter a selection:");
                 System.out.println("1. List all accounts");
                 System.out.println("2. List Accounts using user id");
                 System.out.println("3. List Accounts using username");
@@ -194,7 +221,7 @@ public class Bank {
 
 
                 //Attempt to get input
-                try{
+                try {
 
                     //Get input
                     selection = consoleInput.nextLine();
@@ -205,7 +232,7 @@ public class Bank {
                     //Parse input
                     selectionParsed = Integer.parseInt(selection);
 
-                }catch(Exception e){
+                } catch (Exception e) {
 
                     //Get input again if input could not be validated
                     System.out.println("Incorrect input!");
@@ -213,17 +240,13 @@ public class Bank {
                 }
 
 
-
-
-
-
                 //Run Admin code
-                switch(selectionParsed){
+                switch (selectionParsed) {
 
                     case 1:
 
                         //List all accounts in the bank
-                        //admin.listAllAccounts(accountDatabase);
+                        admin.listAllAccounts(accountDatabase);
 
                         break;
                     case 2:
@@ -286,32 +309,23 @@ public class Bank {
                 }
 
 
-
             }
-
 
 
         }
 
 
 
-
-
-
-
-
-
         /*
         Loop through customer login attempts
          */
-        if(userType.equalsIgnoreCase("customer")) {
-
+        if (userType.equalsIgnoreCase("customer")) {
 
             //Loop through customer login attempts
-            while(!login){
+            while (!login) {
 
                 //Attempt to get input
-                try{
+                try {
 
                     //Get credentials
                     System.out.println("\n-----LOGIN-----");
@@ -328,7 +342,6 @@ public class Bank {
                     userIdParsed = Integer.parseInt(userId);
 
 
-
                     System.out.println("Enter Pin:");
 
                     //Hold input
@@ -340,7 +353,7 @@ public class Bank {
                     //Parse input
                     pinParsed = Integer.parseInt(pin);
 
-                }catch(Exception e){
+                } catch (Exception e) {
 
                     //Get input again if input could not be validated
                     System.out.println("Incorrect input!");
@@ -348,18 +361,17 @@ public class Bank {
                 }
 
 
-
                 //See if account exists
                 //Loop through all accounts
-                for(Account a : accountDatabase){
+                for (Account a : accountDatabase) {
 
                     //See if name matches
-                    if(a.getUserID() == userIdParsed){
+                    if (a.getUserID() == userIdParsed) {
 
                         //Found an account with the same name!
 
                         //See if pin matches
-                        if(a.getPin() == pinParsed){
+                        if (a.getPin() == pinParsed) {
 
                             //Notify account has been found
                             login = true;
@@ -371,15 +383,14 @@ public class Bank {
                 }
 
 
-
                 //Break loop if the account was found
-                if(login) {
+                if (login) {
 
                     //Tell user about login attempt
                     System.out.println("The account was found!");
                     break;
 
-                }else{
+                } else {
 
                     //Tell user about login attempt
                     System.out.println("The account was not found!");
@@ -389,16 +400,11 @@ public class Bank {
             }
 
 
-
-
-
-
             //Loop through selection options
-            while(login){
-
+            while (login) {
 
                 //Show selection
-                System.out.println("Enter a selection:");
+                System.out.println("\nEnter a selection:");
                 System.out.println("1. List my Accounts");
                 System.out.println("2. Delete my Account");
                 System.out.println("3. Create a new Account");
@@ -412,7 +418,7 @@ public class Bank {
 
 
                 //Attempt to get input
-                try{
+                try {
 
                     //Get input
                     selection = consoleInput.nextLine();
@@ -424,7 +430,7 @@ public class Bank {
                     selectionParsed = Integer.parseInt(selection);
 
 
-                }catch(Exception e){
+                } catch (Exception e) {
 
                     //Get input again if input could not be validated
                     System.out.println("Incorrect input!");
@@ -432,11 +438,8 @@ public class Bank {
                 }
 
 
-
-
-
                 //Run customer code
-                switch(selectionParsed){
+                switch (selectionParsed) {
 
 
                     case 1:
@@ -498,29 +501,42 @@ public class Bank {
         }
 
 
-
-
-
     }
 
 
     //Save account database and end the program
-    public static void endProgram(String value, ArrayList<Account> accountDatabase){
+    public static void endProgram(String value, ArrayList<Account> accountDatabase) {
 
-        if(value.equalsIgnoreCase("exit")){
+        if (value.equalsIgnoreCase("exit")) {
+
 
             //Serialize to file (save accountDatabase)
-            try
-            {
+            try {
+
+                //Write the account counter data
+                Writer wr = new FileWriter("./data/AccountCounter.txt");
+
+                int tempAccountNumber = Account.getAccountNumberCounter();
+                int tempUserCounter = Account.getUserIDCounter();
+
+                wr.write(tempAccountNumber + "\n");
+                wr.write(tempUserCounter + "");
+
+                wr.close();
+
+
+                //Write the account database values
                 FileOutputStream fos = new FileOutputStream("./data/AccountData");
                 ObjectOutputStream oos = new ObjectOutputStream(fos);
                 oos.writeObject(accountDatabase);
                 oos.close();
                 fos.close();
-            }
-            catch (IOException ioe)
-            {
+
+            } catch (IOException ioe) {
+
                 ioe.printStackTrace();
+                System.out.println("Something went wrong while saving the data!!!");
+
             }
 
 

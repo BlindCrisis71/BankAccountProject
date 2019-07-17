@@ -1,3 +1,24 @@
+/*
+
+Author: Brandyn Call
+Author: Mujtaba Ashfaq
+
+Created: 7/9/19
+Last Edited: 7/17/19
+
+About:
+CS 3230 Midterm project. It is an application that mimics the way banking software would function.
+The user can access the system using an admin account or a customer account. Customers can manipulate their
+accounts and admins can manipulate all accounts.
+
+Execution:
+Run the driver class 'Bank'. One first execution, the database will not be initialized. In order to populate the
+database, login as the admin using the pin 1234. The database will not be saved unless the user exits the program
+using the 'exit' term in a main menu. Once the database has been initialized, the customers can login to access the
+accounts that were created by the admin.
+
+ */
+
 package ezmoney.clap;
 
 import java.util.ArrayList;
@@ -17,7 +38,6 @@ public class Customer {
      */
     public void listMyAccounts(ArrayList<Account> accountDatabase, int userID) {
 
-
         System.out.println("Your Account(s):\n");
 
         //Display the users accounts
@@ -25,7 +45,7 @@ public class Customer {
 
             if (a.getUserID() == userID) {
 
-                System.out.println(a.toString() + "\n");
+                System.out.println(a.print() + "\n");
 
             }
         }
@@ -47,7 +67,7 @@ public class Customer {
 
         try {
 
-            accountNumber = consoleInput.nextInt();
+            accountNumber = Integer.parseInt(consoleInput.nextLine());
         } catch (Exception ex) {
 
             System.out.println("Incorrect input! Returning to main menu.");
@@ -66,16 +86,20 @@ public class Customer {
                 found = true;
 
                 //Attempt to safely delete account
-                if (a.getBalance() != 0) {
+                if (a.getBalance() == 0.0) {
 
                     accountDatabase.remove(a);
 
                     System.out.println("The account was successfully deleted!");
 
+                    break;
+
                 } else {
 
                     System.out.println("The account could not be deleted!");
-                    System.out.println("It has an outstanding balance of: " + a.getBalance());
+                    System.out.println("It has an outstanding balance of: " + String.format("%,.2f", a.getBalance()));
+
+                    break;
                 }
             }
 
@@ -107,6 +131,7 @@ public class Customer {
         int userIDinput = 0;
 
         try {
+
             //Get the data for this account
             System.out.println("Enter a name for the new account: ");
             name = consoleInput.nextLine();
@@ -115,16 +140,17 @@ public class Customer {
             String pinString = consoleInput.nextLine();
             pin = Integer.parseInt(pinString);
 
-                System.out.println("Enter the account type (Personal, Business, Checking, Saving): ");
-                type = consoleInput.nextLine();
+            System.out.println("Enter the account type (Personal, Business, Checking, Saving): ");
+            type = consoleInput.nextLine();
 
 
             //Get user id if necessary (Admin)
-            if(userId.equalsIgnoreCase("")){
+            if (userId.equalsIgnoreCase("")) {
 
                 System.out.println("Enter an existing userID for this account (or 0 to generate a new id): ");
-                userIDinput = consoleInput.nextInt();
-            }else{
+                userIDinput = Integer.parseInt(consoleInput.nextLine());
+
+            } else {
 
                 //Set the userID if it is passed in
                 userIDinput = Integer.parseInt(userId);
@@ -142,12 +168,13 @@ public class Customer {
 
         //Attempt to create the account
         if (enumType == null) {
+
             System.out.println("The correct account type was not found.");
             System.out.println("The account could not be created!");
 
         } else {
 
-            if(userIDinput == 0){
+            if (userIDinput == 0) {
 
                 //Generate the userID
 
@@ -158,9 +185,9 @@ public class Customer {
                 //Notify the user
                 System.out.println("The account has been created!");
                 System.out.println("Account info:");
-                System.out.println(account.toString());
+                System.out.println(account.print());
 
-            }else{
+            } else {
 
                 //Do not generate the userID
 
@@ -171,7 +198,7 @@ public class Customer {
                 //Notify the user
                 System.out.println("The account has been created!");
                 System.out.println("Account info:");
-                System.out.println(account.toString());
+                System.out.println(account.print());
             }
         }
 
@@ -194,10 +221,11 @@ public class Customer {
 
             //Get the users input
             System.out.println("Enter your account number you wish to deposit to: ");
-            accountNumber = consoleInput.nextInt();
+            accountNumber = Integer.parseInt(consoleInput.nextLine());
 
             System.out.println("Enter the amount you wish to deposit: ");
-            amount = consoleInput.nextDouble();
+            amount = Double.parseDouble(consoleInput.nextLine());
+
         } catch (Exception ex) {
 
             System.out.println("Incorrect input! Returning to main menu.");
@@ -214,10 +242,11 @@ public class Customer {
 
                 found = true;
 
-                a.deposit(amount);
+                a.deposit(amount, false);
 
                 System.out.println("The money was successfully deposited!");
-                System.out.println("Your new balance is: " + a.getBalance());
+                System.out.println("Your new balance is: " + String.format("%,.2f", a.getBalance()));
+                break;
             }
 
         }
@@ -249,17 +278,19 @@ public class Customer {
 
             //Get the users input
             System.out.println("Enter your account number you wish to withdraw from: ");
-            accountNumber = consoleInput.nextInt();
+            accountNumber = Integer.parseInt(consoleInput.nextLine());
 
             System.out.println("Enter the amount you wish to withdraw: ");
-            amount = consoleInput.nextDouble();
+            amount = Double.parseDouble(consoleInput.nextLine());
+
         } catch (Exception ex) {
+
             System.out.println("Incorrect input! Returning to main menu.");
         }
 
+
         //Flag if the account is found
         boolean found = false;
-
 
         //Find the correct account
         for (Account a : accountDatabase) {
@@ -268,7 +299,9 @@ public class Customer {
 
                 found = true;
 
-                a.withdraw(amount);
+                a.withdraw(amount, false);
+
+                break;
 
             }
 
@@ -283,9 +316,6 @@ public class Customer {
 
 
     }
-
-
-
 
 
     /**
@@ -302,14 +332,16 @@ public class Customer {
 
             //Get input
             System.out.println("Enter the accounts number that you want a summary for: ");
-            accountNumber = consoleInput.nextInt();
+            accountNumber = Integer.parseInt(consoleInput.nextLine());
+
         } catch (Exception ex) {
+
             System.out.println("Incorrect input! Returning to main menu.");
         }
 
+
         //Flag if the account is found
         boolean found = false;
-
 
         //Find the account
         for (Account a : accountDatabase) {
@@ -318,14 +350,15 @@ public class Customer {
 
                 //Display the account info
                 found = true;
-                System.out.println(a.toString());
+                System.out.println(a.print());
 
                 //Show account activity if necessary
-                if(type.equalsIgnoreCase("Transaction details")){
+                if (type.equalsIgnoreCase("Transaction details")) {
 
                     a.showActivity();
                 }
 
+                break;
             }
         }
 
@@ -338,7 +371,6 @@ public class Customer {
 
 
     }
-
 
 
     /**
@@ -359,14 +391,16 @@ public class Customer {
 
             //Get input
             System.out.println("Enter the account you wish to transfer from: ");
-            srcNum = consoleInput.nextInt();
+            srcNum = Integer.parseInt(consoleInput.nextLine());
 
             System.out.println("Enter the account you wish to transfer to: ");
-            dstNum = consoleInput.nextInt();
+            dstNum = Integer.parseInt(consoleInput.nextLine());
 
             System.out.println("Enter the amount that you would like to transfer: ");
-            transAmount = consoleInput.nextDouble();
+            transAmount = Double.parseDouble(consoleInput.nextLine());
+
         } catch (Exception ex) {
+
             System.out.println("Incorrect input! Returning to main menu.");
         }
 
@@ -382,7 +416,6 @@ public class Customer {
             if (a.getUserID() == userID && a.getAccountNumber() == srcNum) {
 
                 srcAccount = a;
-
             }
 
             //Get destination account
@@ -418,15 +451,15 @@ public class Customer {
 
             System.out.println("There is not enough money in the src account to transfer!");
             System.out.println("You requested: " + transAmount);
-            System.out.println("You only have a balance of: " + srcAccount.getBalance());
+            System.out.println("You only have a balance of: " + String.format("%,.2f", srcAccount.getBalance()));
 
             return;
         }
 
 
         //Transfer the money
-        srcAccount.withdraw(transAmount);
-        dstAccount.deposit(transAmount);
+        srcAccount.withdraw(transAmount, true);
+        dstAccount.deposit(transAmount, true);
 
         System.out.println("The money was successfully transferred!");
 
