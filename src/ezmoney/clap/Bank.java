@@ -126,14 +126,15 @@ public class Bank {
                 //Show selection
                 System.out.println("Enter a selection:");
                 System.out.println("1. List all accounts");
-                System.out.println("2. List Accounts with options");
-                System.out.println("3. Delete Account");
-                System.out.println("4. Create Account");
-                System.out.println("5. Deposit Money into an account");
-                System.out.println("6. Withdraw money from an account");
-                System.out.println("7. Request an account summary");
-                System.out.println("8. Request account transaction details");
-                System.out.println("9. Transfer money between accounts");
+                System.out.println("2. List Accounts using user id");
+                System.out.println("3. List Accounts using username");
+                System.out.println("4. Delete Account");
+                System.out.println("5. Create Account");
+                System.out.println("6. Deposit Money into an account");
+                System.out.println("7. Withdraw money from an account");
+                System.out.println("8. Request an account summary");
+                System.out.println("9. Request account transaction details");
+                System.out.println("10. Transfer money between accounts");
 
                 System.out.println("Selection: ");
 
@@ -158,51 +159,57 @@ public class Bank {
                         break;
                     case 2:
 
-                        //This lists certain accounts based on user inputs
-                        admin.listAccounts(accountDatabase);
+                        //This lists certain accounts based on user id
+                        admin.listAccountsUserID(accountDatabase);
 
                         break;
                     case 3:
+
+                        //This lists certain accounts based on user name
+                        admin.listAccountsUsername(accountDatabase);
+
+                        break;
+                    case 4:
 
                         //Delete the specified account
                         admin.deleteAccount(accountDatabase);
 
                         break;
-                    case 4:
+                    case 5:
 
                         //Create a new account
                         admin.createAccount(accountDatabase);
 
                         break;
-                    case 5:
+                    case 6:
 
                         //Deposit money into the specified account
                         //TODO: Do NOT pass userID from here. Override the customer methods in customer if needed.
                         admin.deposit(accountDatabase);
 
                         break;
-                    case 6:
+                    case 7:
 
                         //Withdraw money from the specified account
                         //TODO: Do NOT pass userID from here. Override the customer methods in customer if needed.
                         admin.withdraw(accountDatabase);
 
                         break;
-                    case 7:
+                    case 8:
 
                         //Get info from specified account
                         //TODO: Do NOT pass userID from here. Override the customer methods in customer if needed.
                         admin.requestAccountSummary(accountDatabase);
 
                         break;
-                    case 8:
+                    case 9:
 
                         //Get transaction history from specified account
                         //TODO: Do NOT pass userID from here. Override the customer methods in customer if needed.
                         admin.requestTransactionDetails(accountDatabase);
 
                         break;
-                    case 9:
+                    case 10:
 
                         //Send money from a specified account to another specified account
                         //TODO: Do NOT pass userID from here. Override the customer methods in customer if needed.

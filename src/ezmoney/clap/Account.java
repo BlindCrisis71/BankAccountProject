@@ -8,8 +8,8 @@ public class Account {
     //TODO: Use static counter to keep track of ids
     //Unique id's are created by incrementing
     //Old id's are never recycled
-    public static int accountNumberCounter;
-    public static int userIdCounter;
+    public static int accountNumberCounter = 9000;
+    public static int userIdCounter = 100;
 
 
 

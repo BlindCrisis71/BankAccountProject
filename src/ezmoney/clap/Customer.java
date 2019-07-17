@@ -43,8 +43,15 @@ public class Customer {
         //Get the account number
         System.out.println("Enter the accounts number that you wish to delete: ");
 
-        //TODO: Does this need try/catch block?
-        int accountNumber = consoleInput.nextInt();
+        int accountNumber = 0;
+
+        try {
+
+            accountNumber = consoleInput.nextInt();
+        } catch (Exception ex) {
+
+            System.out.println("Incorrect input! Returning to main menu.");
+        }
 
 
         //Flag if the account is found
@@ -91,19 +98,32 @@ public class Customer {
      */
     public void createAccount(ArrayList<Account> accountDatabase) {
 
-        //TODO: use a try catch on input!!
-        //Get the data for this account
-        System.out.println("Enter a name for the new account: ");
-        String name = consoleInput.nextLine();
+        String name = "";
 
-        System.out.println("Enter a new pin for this account: ");
-        int pin = consoleInput.nextInt();
+        int pin = 0;
 
-        System.out.println("Enter the account type (Personal, Business, Checking, Saving): ");
-        String type = consoleInput.nextLine();
+        String type = "";
 
-        System.out.println("Enter the userID for this account: ");
-        int userID = consoleInput.nextInt();
+        int userID = 0;
+
+        try {
+            //Get the data for this account
+            System.out.println("Enter a name for the new account: ");
+            name = consoleInput.nextLine();
+
+            System.out.println("Enter a new pin for this account: ");
+            pin = consoleInput.nextInt();
+
+            System.out.println("Enter the account type (Personal, Business, Checking, Saving): ");
+            type = consoleInput.nextLine();
+
+            System.out.println("Enter the userID for this account: ");
+            userID = consoleInput.nextInt();
+        } catch (Exception ex) {
+
+            System.out.println("Incorrect input! Returning to main menu.");
+        }
+
 
 
         //Get the correct enum value
@@ -138,14 +158,22 @@ public class Customer {
      */
     public void deposit(ArrayList<Account> accountDatabase, int userID) {
 
-        //TODO: Use a try catch on input!!
-        //Get the users input
-        System.out.println("Enter your account number you wish to deposit to: ");
-        int accountNumber = consoleInput.nextInt();
+        int accountNumber = 0;
 
-        System.out.println("Enter the amount you wish to deposit: ");
-        double amount = consoleInput.nextDouble();
+        double amount = 0;
 
+        try {
+
+            //Get the users input
+            System.out.println("Enter your account number you wish to deposit to: ");
+            accountNumber = consoleInput.nextInt();
+
+            System.out.println("Enter the amount you wish to deposit: ");
+            amount = consoleInput.nextDouble();
+        } catch (Exception ex) {
+
+            System.out.println("Incorrect input! Returning to main menu.");
+        }
 
         //Flag if the account is found
         boolean found = false;
@@ -185,15 +213,21 @@ public class Customer {
      */
     public void withdraw(ArrayList<Account> accountDatabase, int userID) {
 
+        int accountNumber = 0;
 
-        //TODO: Use a try catch on input!!
-        //Get the users input
-        System.out.println("Enter your account number you wish to withdraw from: ");
-        int accountNumber = consoleInput.nextInt();
+        double amount = 0;
 
-        System.out.println("Enter the amount you wish to withdraw: ");
-        double amount = consoleInput.nextDouble();
+        try {
 
+            //Get the users input
+            System.out.println("Enter your account number you wish to withdraw from: ");
+            accountNumber = consoleInput.nextInt();
+
+            System.out.println("Enter the amount you wish to withdraw: ");
+            amount = consoleInput.nextDouble();
+        } catch (Exception ex) {
+            System.out.println("Incorrect input! Returning to main menu.");
+        }
 
         //Flag if the account is found
         boolean found = false;
@@ -243,12 +277,16 @@ public class Customer {
      */
     public void requestAccountSummary(ArrayList<Account> accountDatabase, int userID) {
 
+        int accountNumber = 0;
 
-        //TODO: Use a try/catch block!
-        //Get input
-        System.out.println("Enter the accounts number that you want a summary for: ");
-        int accountNumber = consoleInput.nextInt();
+        try {
 
+            //Get input
+            System.out.println("Enter the accounts number that you want a summary for: ");
+            accountNumber = consoleInput.nextInt();
+        } catch (Exception ex) {
+            System.out.println("Incorrect input! Returning to main menu.");
+        }
 
         //Flag if the account is found
         boolean found = false;
@@ -281,11 +319,16 @@ public class Customer {
     //TODO: This is the exact same code as in 'requestAccountSummary'. Should the two methods be merged?
     public void requestTransactionDetails(ArrayList<Account> accountDatabase, int userID) {
 
+        int accountNumber = 0;
 
-        //TODO: Use a try/catch block!
-        //Get input
-        System.out.println("Enter the accounts number that you want a summary for: ");
-        int accountNumber = consoleInput.nextInt();
+        try {
+
+            //Get input
+            System.out.println("Enter the accounts number that you want a summary for: ");
+            accountNumber = consoleInput.nextInt();
+        } catch (Exception ex) {
+            System.out.println("Incorrect input! Returning to main menu.");
+        }
 
 
         //Flag if the account is found
@@ -322,17 +365,26 @@ public class Customer {
      */
     public void transferMoney(ArrayList<Account> accountDatabase, int userID) {
 
+        int srcNum = 0;
 
-        //TODO: Use a try/catch block!
-        //Get input
-        System.out.println("Enter the account you wish to transfer from: ");
-        int srcNum = consoleInput.nextInt();
+        int dstNum = 0;
 
-        System.out.println("Enter the account you wish to transfer to: ");
-        int dstNum = consoleInput.nextInt();
+        double transAmount = 0;
 
-        System.out.println("Enter the amount that you would like to transfer: ");
-        double transAmount = consoleInput.nextDouble();
+        try {
+
+            //Get input
+            System.out.println("Enter the account you wish to transfer from: ");
+            srcNum = consoleInput.nextInt();
+
+            System.out.println("Enter the account you wish to transfer to: ");
+            dstNum = consoleInput.nextInt();
+
+            System.out.println("Enter the amount that you would like to transfer: ");
+            transAmount = consoleInput.nextDouble();
+        } catch (Exception ex) {
+            System.out.println("Incorrect input! Returning to main menu.");
+        }
 
 
         //Hold the transfer accounts
