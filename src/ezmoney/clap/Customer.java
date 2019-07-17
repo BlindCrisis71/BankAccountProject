@@ -97,7 +97,8 @@ public class Customer {
         String name = consoleInput.nextLine();
 
         System.out.println("Enter a new pin for this account: ");
-        int pin = consoleInput.nextInt();
+        String pinString = consoleInput.nextLine();
+        int pin = Integer.parseInt(pinString);
 
         System.out.println("Enter the account type (Personal, Business, Checking, Saving): ");
         String type = consoleInput.nextLine();
@@ -130,7 +131,7 @@ public class Customer {
         } else {
 
             if(userIDinput == 0){
-
+/*
                 //Generate the userID
 
                 //Create the new account
@@ -141,7 +142,7 @@ public class Customer {
                 System.out.println("The account has been created!");
                 System.out.println("Account info:");
                 System.out.println(account.toString());
-
+*/
             }else{
 
                 //Do not generate the userID
