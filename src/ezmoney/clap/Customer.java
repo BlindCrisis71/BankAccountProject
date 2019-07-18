@@ -119,6 +119,7 @@ public class Customer {
      * Create a new account
      *
      * @param accountDatabase The list of all bank accounts
+     * @param userId          The user id that may be tied to multiple bank accounts
      */
     public void createAccount(ArrayList<Account> accountDatabase, String userId) {
 
@@ -323,6 +324,7 @@ public class Customer {
      *
      * @param accountDatabase The list of all bank accounts
      * @param userID          The user id that may be tied to multiple bank accounts
+     * @param type            The type sets whether transaction details will be shown
      */
     public void requestAccountDetails(ArrayList<Account> accountDatabase, int userID, String type) {
 
