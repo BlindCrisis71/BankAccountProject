@@ -36,7 +36,9 @@ import java.util.Scanner;
 
 import static java.lang.System.exit;
 
-//This is the driver class
+/**
+ * The driver class that gets input from the console and passes it to the correct class.
+ */
 public class Bank {
 
     public static void main(String[] args) {
@@ -505,7 +507,13 @@ public class Bank {
 
 
     //Save account database and end the program
-    public static void endProgram(String value, ArrayList<Account> accountDatabase) {
+
+    /**
+     * Ends the program and saves the database values.
+     * @param value Checks to see if input is 'exit'
+     * @param accountDatabase The ArrayList holding all customer accounts
+     */
+    private static void endProgram(String value, ArrayList<Account> accountDatabase) {
 
         if (value.equalsIgnoreCase("exit")) {
 

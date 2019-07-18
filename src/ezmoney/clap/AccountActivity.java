@@ -24,6 +24,9 @@ package ezmoney.clap;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * This class keeps track of transaction history for accounts. Accounts hold an arrayList of AccountActivity objects.
+ */
 public class AccountActivity implements Serializable {
 
     /**

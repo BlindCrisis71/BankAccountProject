@@ -24,6 +24,9 @@ package ezmoney.clap;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * This class modifies the database and has access to only the customers accounts.
+ */
 public class Account implements Serializable {
 
     /**

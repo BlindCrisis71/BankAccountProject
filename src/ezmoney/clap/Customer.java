@@ -24,10 +24,13 @@ package ezmoney.clap;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * This class modifies the arraylist
+ */
 public class Customer {
 
 
-    protected Scanner consoleInput = new Scanner(System.in);
+    private Scanner consoleInput = new Scanner(System.in);
 
 
     /**

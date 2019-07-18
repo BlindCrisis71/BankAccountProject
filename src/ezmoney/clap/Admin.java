@@ -24,6 +24,9 @@ package ezmoney.clap;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * This class modifies the database and has access to all accounts. It extends the Customer class for code reuse.
+ */
 public class Admin extends Customer {
 
     protected Scanner consoleInput = new Scanner(System.in);
